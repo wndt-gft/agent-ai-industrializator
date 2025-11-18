@@ -130,31 +130,27 @@ Abaixo, o fluxo funcional baseado na jornada do usuário e do agente:
 ## 6. Diagrama de Fluxo da Solução (Mermaid)
 
 ```mermaid
-flowchart LR
-    U[Usuário] -->|1. Envia história da tecnologia<br/>fornecedor, tecnologia, versão, links...| A[Agente Industrializador]
+flowchart TD
+    U["Usuário"] -->|"1. Envia história da tecnologia\nfornecedor, tecnologia, versão, links..."| A["Agente Industrializador"]
+    A -->|"2. Analisa entrada e sugere templates N1..N5"| T["Lista de templates N1..N5"]
 
-    A -->|2. Analisa entrada<br/>e sugere templates N1..N5| T[Lista de Templates Disponíveis]
+    T -->|"3. Template confirmado (ex: N3)"| A2["Agente - Modo industrialização"]
 
-    U -->|3. Confirma template (ex: N3)| T
-    T -->|Template selecionado| A2[Agente - Modo Industrialização]
+    A2 -->|"4. Analisa estrutura,\ninstruções e exemplos do template"| S["Motor de template"]
+    A2 -->|"5. Busca informações\n(site do fornecedor, docs, links)"| W["Coletor web / conectores"]
 
-    A2 -->|4. Analisa estrutura,<br/>instruções e exemplos do template| S[Motor de Template]
+    S -->|"6. Regras de preenchimento"| A2
+    W -->|"7. Dados normalizados"| A2
 
-    A2 -->|5. Busca informações<br/>site do fornecedor, docs, links| W[Coletor Web/Conectores]
+    A2 -->|"8. Preenche template\ne gera versão preliminar"| D["Draft industrialização"]
 
-    W -->|Dados normalizados| A2
-    S -->|Regras de preenchimento| A2
+    D -->|"9. Exibe industrialização\npara revisão do usuário"| U2["Usuário (revisão)"]
 
-    A2 -->|6. Preenche template<br/>gera versão preliminar| D[Draft Industrialização]
+    U2 -->|"10. Solicita ajustes"| A2
+    U2 -->|"11. Aprova"| A3["Agente - Finalização"]
 
-    D -->|7. Exibe industrialização<br/>para revisão do usuário| U2[Usuário Revisando]
-
-    U2 -->|Solicita ajustes| A2
-    U2 -->|Aprova| A3[Agente - Finalização]
-
-    A3 -->|8. Gera arquivos .md<br/>documentação completa| F[Arquivos .md]
-
-    F -->|9. Envia para repositório<br/>(Git, pasta padrão, etc.)| R[Repositório Definido]
+    A3 -->|"12. Gera arquivos .md"| F["Arquivos .md"]
+    F -->|"13. Envia para repositório definido"| R["Repositório"]
 ```
 
 ---
